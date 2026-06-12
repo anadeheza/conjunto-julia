@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conjunto de Julia</title>
+<title>Julia Set</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <h1>Julia Set</h1>
-        <span>WebGL</span>
     </header>
 
     <main>
@@ -34,6 +33,14 @@
                 <div class="ctrl">
                     <div class="ctrl-header"><label>max. iterations</label><span class="val" id="miv">256</span></div>
                     <input type="range" id="mi" min="64" max="1024" step="64" value="256">
+                </div>
+            </div>
+
+            <div>
+                <div class="section-label">Zoom</div>
+                <div class="ctrl">
+                    <div class="ctrl-header"><label>Zoom</label><span class="val" id="zoomv">1.00×</span></div>
+                    <input type="range" id="zoom-slider" min="0" max="200" step="1" value="0">
                 </div>
             </div>
 

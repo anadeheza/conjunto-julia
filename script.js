@@ -100,12 +100,25 @@ function resize() {
     }
 }
  
+// Convert between zoom value and slider position (exponential scale)
+// slider 0..200 -> zoom 1..~22026
+function zoomToSlider(z) { return Math.log(z) / Math.log(Math.E) * 200 / Math.log(Math.E * Math.E * 50); }
+function sliderToZoom(s) { return Math.exp(s / 200 * Math.log(Math.E * Math.E * 50) / Math.log(Math.E)); }
+
 function updateInfo() {
     document.getElementById('inf-cx').textContent   = cx.toFixed(4);
     document.getElementById('inf-cy').textContent   = cy.toFixed(4);
     document.getElementById('inf-zoom').textContent = zoom.toFixed(2) + '×';
     const im = ci2 >= 0 ? '+' + ci2.toFixed(3) : ci2.toFixed(3);
     document.getElementById('inf-c').textContent    = cr.toFixed(3) + im + 'i';
+
+    // Sync zoom slider without triggering its event
+    const slider = document.getElementById('zoom-slider');
+    const pos = Math.round(Math.log(zoom) / Math.log(10000) * 200);
+    slider.value = Math.max(0, Math.min(200, pos));
+    document.getElementById('zoomv').textContent = zoom >= 1000
+        ? zoom.toExponential(1) + '×'
+        : zoom.toFixed(2) + '×';
 }
  
 function draw() {
@@ -173,16 +186,12 @@ window.addEventListener('mousemove', e => {
 canvas.addEventListener('wheel', e => {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
-    // Convert cursor position to math-space coordinates
-    const scale = rect.height * 0.5 * zoom;
-    const mx = (e.clientX - rect.left - rect.width  / 2) / scale + cx;
-    const my = (e.clientY - rect.top  - rect.height / 2) / scale - cy; // canvas y is flipped
+    const mx = (e.clientX - rect.left - rect.width/2)  / (rect.height * 0.5 * zoom);
+    const my = (e.clientY - rect.top  - rect.height/2) / (rect.height * 0.5 * zoom);
     const f = e.deltaY < 0 ? 1.25 : 1 / 1.25;
+    cx += mx * (1 - f);
+    cy -= my * (1 - f);
     zoom *= f;
-    // After zoom, keep the point under cursor fixed
-    const newScale = rect.height * 0.5 * zoom;
-    cx = mx - (e.clientX - rect.left - rect.width  / 2) / newScale;
-    cy = -(my + (e.clientY - rect.top  - rect.height / 2) / newScale);
     draw();
 }, { passive: false });
  
@@ -228,5 +237,11 @@ canvas.addEventListener('touchend', () => {
     initDist = null; 
 });
  
+document.getElementById('zoom-slider').oninput = e => {
+    const pos = parseInt(e.target.value);
+    zoom = Math.pow(10000, pos / 200);
+    draw();
+};
+
 window.addEventListener('resize', draw);
 draw();
