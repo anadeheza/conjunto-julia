@@ -1,10 +1,11 @@
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 #define WIDTH 800
 #define HEIGHT 800
-
 #define MAX_ITER 256
 
 //c = cr + ci*i
@@ -53,7 +54,7 @@ Color iters_to_color(int iter) {
 }
 
 int julia(double zr, double zi) {
-    for (int i = 0; i > MAX_ITER; i++) {
+    for (int i = 0; i < MAX_ITER; i++) {
         double zr2 = zr * zr;
         double zi2 = zi * zi;
 
@@ -66,37 +67,29 @@ int julia(double zr, double zi) {
     return MAX_ITER;
 }
 
-int main(){
-    const char *filename = "julia.ppm";
 
-    FILE *fp = fopen(filename, "wb");
-
-    if(!fp) { 
-        perror("fopen");
-        return 1;
-    }
-
-    fprintf(fp, "P6\n%d %d\n255\n", WIDTH, HEIGHT);
-
-    for (int py = 0; py < HEIGHT; py++)
-    {
-        for (int px = 0; px < WIDTH; px++)
-        {
-            double zr = X_MIN + (X_MAX - X_MIN) * px / (WIDTH - 1);
+int main(void) {
+    unsigned char *pixels = malloc(WIDTH * HEIGHT * 3);
+    if (!pixels) { fprintf(stderr, "Sin memoria\n"); return 1; }
+ 
+    for (int py = 0; py < HEIGHT; py++) {
+        for (int px = 0; px < WIDTH; px++) {
+            double zr = X_MIN + (X_MAX - X_MIN) * px / (WIDTH  - 1);
             double zi = Y_MAX - (Y_MAX - Y_MIN) * py / (HEIGHT - 1);
-
+ 
             int iter = julia(zr, zi);
-            Color c = iters_to_color(iter);
-
-            fputc(c.r, fp);
-            fputc(c.g, fp);
-            fputc(c.b, fp);
+            Color c  = iters_to_color(iter);
+ 
+            int idx = (py * WIDTH + px) * 3;
+            pixels[idx + 0] = c.r;
+            pixels[idx + 1] = c.g;
+            pixels[idx + 2] = c.b;
         }
-        
     }
-
-    fclose(fp);
-    printf("Imagen guardada en: %s  (%dx%d px)\n", filename, WIDTH, HEIGHT);
-    
-    
+ 
+    stbi_write_png("julia.png", WIDTH, HEIGHT, 3, pixels, WIDTH * 3);
+    printf("Imagen guardada en: julia.png (%dx%d px)\n", WIDTH, HEIGHT);
+ 
+    free(pixels);
+    return 0;
 }
