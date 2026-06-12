@@ -1,5 +1,7 @@
 #  Interactive Julia set
-> the use of a mouse is suggested since it is harder to use it with a mousepad
+> i suggest you use a mouse since it is harder to zoom in and out it with a mousepad
+
+![alt text](image.png)
 
 I decided to code the funcions of the Julia Set in C, then, i thought to myself, how can i show this? andi wanna make it cool and fun aswell...
 
@@ -13,7 +15,11 @@ Then i thought it would be interesting to show it in a website, but i wanted to 
 Ok, jokes aside, i left the C file since it was the begining and i didn't really know how to include it in my project so instead i embedded a part of my C code and did the rest with javascript.
 
 ## Features
-You can zoom in or out with the mouse wheel
+You can zoom in or out with the mouse wheel or by pinching the screen or mousepad.
 
+You can move the set by pressing over it and dragging it around.
+
+At the right you'll find controllers for the zoom, variables and quality of the set.
 
 ### AI Use
+> I used AI to figure out how to go from a C code to JavaScript while having all the functions i wanted and maintaining the math accurate.
