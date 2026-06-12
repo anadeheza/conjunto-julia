@@ -173,12 +173,16 @@ window.addEventListener('mousemove', e => {
 canvas.addEventListener('wheel', e => {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
-    const mx = (e.clientX - rect.left - rect.width/2)  / (rect.height * 0.5 * zoom);
-    const my = (e.clientY - rect.top  - rect.height/2) / (rect.height * 0.5 * zoom);
+    // Convert cursor position to math-space coordinates
+    const scale = rect.height * 0.5 * zoom;
+    const mx = (e.clientX - rect.left - rect.width  / 2) / scale + cx;
+    const my = (e.clientY - rect.top  - rect.height / 2) / scale - cy; // canvas y is flipped
     const f = e.deltaY < 0 ? 1.25 : 1 / 1.25;
-    cx += mx * (1 - f);
-    cy -= my * (1 - f);
     zoom *= f;
+    // After zoom, keep the point under cursor fixed
+    const newScale = rect.height * 0.5 * zoom;
+    cx = mx - (e.clientX - rect.left - rect.width  / 2) / newScale;
+    cy = -(my + (e.clientY - rect.top  - rect.height / 2) / newScale);
     draw();
 }, { passive: false });
  

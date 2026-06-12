@@ -12,9 +12,8 @@ Then i thought it would be interesting to show it in a website, but i wanted to 
 
 Ok, jokes aside, i left the C file since it was the begining and i didn't really know how to include it in my project so instead i embedded a part of my C code and did the rest with javascript.
 
-
 ## Features
-You can zoom in or out with the mouse
+You can zoom in or out with the mouse wheel
 
 
 ### AI Use
