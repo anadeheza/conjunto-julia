@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Julia Set</title>
+<title>Mandelbrot Set</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>Julia Set</h1>
+        <h1>Mandelbrot Set</h1>
     </header>
 
     <main>
@@ -17,22 +17,10 @@
 
         <aside>
             <div>
-                <div class="section-label">c = Re + Im·i</div>
-                <div class="ctrl">
-                    <div class="ctrl-header"><label>Re(c)</label><span class="val" id="crv">-0.700</span></div>
-                    <input type="range" id="cr" min="-1.5" max="1.5" step="0.001" value="-0.7">
-                </div>
-                <div class="ctrl">
-                    <div class="ctrl-header"><label>Im(c)</label><span class="val" id="civ">0.270</span></div>
-                    <input type="range" id="ci" min="-1.5" max="1.5" step="0.001" value="0.270">
-                </div>
-            </div>
-
-            <div>
                 <div class="section-label">Quality</div>
                 <div class="ctrl">
-                    <div class="ctrl-header"><label>max. iterations</label><span class="val" id="miv">256</span></div>
-                    <input type="range" id="mi" min="64" max="1024" step="64" value="256">
+                    <div class="ctrl-header"><label>max. iterations</label><span class="val" id="miv">512</span></div>
+                    <input type="range" id="mi" min="64" max="2048" step="64" value="512">
                 </div>
             </div>
 
@@ -40,37 +28,36 @@
                 <div class="section-label">Zoom</div>
                 <div class="ctrl">
                     <div class="ctrl-header"><label>Zoom</label><span class="val" id="zoomv">1.00×</span></div>
-                    <input type="range" id="zoom-slider" min="0" max="200" step="1" value="0">
+                    <input type="range" id="zoom-slider" min="0" max="300" step="1" value="0">
                 </div>
             </div>
 
             <div>
-                <div class="section-label">Presets</div>
+                <div class="section-label">Locations</div>
                 <div class="presets">
-                    <button class="preset-btn" onclick="setPreset(-0.7,0.27015,'Clásico')">Classic<span class="sub">c=-0.7+0.27i</span></button>
-                    <button class="preset-btn" onclick="setPreset(0.27072,0.57514,'Espiral')">Spiral<span class="sub">c=0.27+0.57i</span></button>
-                    <button class="preset-btn" onclick="setPreset(-0.123,-0.754,'Copos')">Douady's Rabbit<span class="sub">c=-0.123-0.75i</span></button>
-                    <button class="preset-btn" onclick="setPreset(-0.8,0.156,'Ramas')">Dendrite<span class="sub">c=-0.8+0.156i</span></button>
-                    <button class="preset-btn" onclick="setPreset(-0.54,0.54,'Dragón')">Dragon<span class="sub">c=-0.54+0.54i</span></button>
-                    <button class="preset-btn" onclick="setPreset(-0.75,0.0,'Círculo')">San Marco<span class="sub">c=-0.75+0.0i</span></button>
+                    <button class="preset-btn" onclick="goTo(-0.5,0,1)">Home<span class="sub">full set</span></button>
+                    <button class="preset-btn" onclick="goTo(-0.7438307,0.1271400,380.19)">Seahorse Valley<span class="sub">Re=-0.743</span></button>
+                    <button class="preset-btn" onclick="goTo(0.2557521,-0.0006903,5200)">Elephant Valley<span class="sub">Re=0.255</span></button>
+                    <button class="preset-btn" onclick="goTo(-0.3438989,-0.6112302,4600)">Spiral<span class="sub">Re=-0.344</span></button>
+                    <button class="preset-btn" onclick="goTo(-0.7766459,0.1366464,10000)">Sun<span class="sub">Re=-0.776</span></button>
+                    <button class="preset-btn" onclick="goTo(-0.3750327,-0.6607451,253.33)">Starfish<span class="sub">Re=-0.375</span></button>
                 </div>
             </div>
 
             <div>
                 <div class="section-label">Current View</div>
                 <div class="info-box">
-                    center x: <span id="inf-cx">0.0000</span><br>
-                    ceenter y: <span id="inf-cy">0.0000</span><br>
-                    zoom:&nbsp;&nbsp;&nbsp;<span id="inf-zoom">1.00×</span><br>
-                    c:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="inf-c">-0.700+0.270i</span>
+                    center x: <span id="inf-cx">-0.5000000</span><br>
+                    center y: <span id="inf-cy">0.0000000</span><br>
+                    zoom:&nbsp;&nbsp;&nbsp;<span id="inf-zoom">1.00×</span>
                 </div>
-                <button class="reset-btn" onclick="resetView()" style="margin-top:8px">Reset view</button>
+                <button class="reset-btn" onclick="goTo(-0.5,0,1)" style="margin-top:8px">Reset view</button>
             </div>
         </aside>
     </main>
 
     <footer>
-        <span class="hint">Wheel → zoom</span>
+        <span class="hint">Wheel → zoom to cursor</span>
         <span class="hint">Grab → move</span>
         <span class="hint">Pinch → phone zoom</span>
     </footer>
