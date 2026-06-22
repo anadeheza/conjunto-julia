@@ -1,4 +1,4 @@
-#  Interactive Julia set
+#  Interactive Mandelbrot set
 > i suggest you use a mouse since it is harder to zoom in and out it with a mousepad
 
 ![demo](image-1.png)
